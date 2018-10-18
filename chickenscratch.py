@@ -1,5 +1,4 @@
 
-#import beautifulsoup4 as beautifulsoup4
 
 print("Herp Derp")
 
