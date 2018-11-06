@@ -235,23 +235,23 @@ for x in range(len(pics)):
     pyautogui.typewrite(['enter'], interval=.5)
     time.sleep(2)
 browser.find_element_by_xpath('//li/a[contains(.,"Next")]').click()
-#DEBUGGING ***
+# 1 CASE TEST ***
 
 ActionChains(browser).context_click(pics[0]).perform()
-    pyautogui.typewrite(['down', 'down', 'enter'], interval=.5)
-    pyautogui.moveTo(500, 60)
-    pyautogui.click(interval=1)
-    time.sleep(2)
-    # pyautogui.typewrite(['backspace'], interval=.5)
-    pyautogui.typewrite('Nell', interval=.5)
-    pyautogui.typewrite(['enter'])
+pyautogui.typewrite(['down', 'down', 'enter'], interval=.5)
+pyautogui.moveTo(500, 60)
+pyautogui.click(interval=1)
+time.sleep(2)
+# pyautogui.typewrite(['backspace'], interval=.5)
+pyautogui.typewrite('Nell', interval=.5)
+pyautogui.typewrite(['enter'])
 
-    for y in range(len(html.xpath('//tr/td/img[contains(@class, "avatar")]/@alt').extract()[0])):
-        time.sleep(.5)
-        pyautogui.typewrite(html.xpath('//tr/td/img[contains(@class, "avatar")]/@alt').extract()[0][y])
+for y in range(len(html.xpath('//tr/td/img[contains(@class, "avatar")]/@alt').extract()[0])):
+    time.sleep(.5)
+    pyautogui.typewrite(html.xpath('//tr/td/img[contains(@class, "avatar")]/@alt').extract()[0][y])
 pyautogui.typewrite('enter', interval=.5)
-    time.sleep(2)
-# DEBUGGING /
+time.sleep(2)
+# 1 CASE TEST /
 
 browser.close()
 # browser = Chrome('chromedriver')
@@ -293,6 +293,17 @@ imshow(img)
 # img_gray = rgb2grey(img_rgb)       #so, all along the gray images produced are fine, but read incorrectly by plt
 # cv2.imwrite('res.png',img_gray)
 
-# TAKE HOME MESSAGE: USE ALL FROM 1 LIBRARY, I.E. SKIMAGE
+# TAKE HOME MESSAGE: USE ALL FROM 1 LIBRARY, I.E. SciKit-Image / SKIMAGE
 
-# ???
+
+# OK, SO NOW TEST RUN FOR MATCHING 2 HAIRSTYLES AGAINST NELL
+
+matcher = imread('/Users/Tim/PyCharmProjects/learning/Legends_Avatars/soprano2.png', as_gray=True)
+imshow(matcher)
+
+from skimage.feature import match_template
+
+result = match_template(img, matcher)
+
+matcher2 = imread('/Users/Tim/PyCharmProjects/learning/Legends_Avatars/cute wave hair2.png', as_gray=True)
+result2 = match_template(img, matcher2)
