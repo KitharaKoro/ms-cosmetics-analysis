@@ -378,6 +378,10 @@ def beforeSlash(line):
     return re.split('/', line)[0]
 
 
+def replaceSlash(line):
+    return line.replace('/', ':')
+
+
 # return_line(3, '/Users/Tim/PycharmProjects/learning/Male Hair URL.txt')    # Yay it works
 
 browser.get(return_line(1, '/Users/Tim/PycharmProjects/learning/Male Hair URL.txt'))
@@ -546,3 +550,31 @@ subprocess.call(['open', '/Users/Tim/PycharmProjects/learning/Legends_Avatars/Ma
 
 # a much more generalized alternative! Warning that this can be ugly with .txt files in MacOS
 
+
+# test run matching FreakBandit against all hairstyles
+
+scores = list()
+img = imread('/Users/Tim/PyCharmProjects/learning/Legends_Avatars/FreakBandit.png', as_gray=True)
+
+matcher = imread('/Users/Tim/PyCharmProjects/learning/Legends_Avatars/Male_Hair/{}s.png'.format(
+                replaceSlash(return_line(11, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt'))), as_gray=True)
+matcher = imread('/Users/Tim/PyCharmProjects/learning/Legends_Avatars/Male_Hair/Rebel : Unkempts.png', as_gray=True)
+imshow(matcher)
+# ok, '/' in path problem fixed
+
+result = match_template(img, matcher)
+imshow(result)
+result.max()
+scores.append(result.max())
+
+scores = list()
+for x in range(141):
+    scores.append(match_template(img, imread('/Users/Tim/PyCharmProjects/learning/Legends_Avatars/Male_Hair/{}s.png'.
+                                            format(replaceSlash(return_line(x+1, '/Users/Tim/PycharmProjects/learning/'
+                                                                                 'Male Hair Name.txt'))), as_gray=True))
+                  .max())
+max(scores)
+scores.index(max(scores))
+print(return_line(scores.index(max(scores))+1, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt'))
+
+# Bah, so FreakBandit apparently best matches the wrong hair
