@@ -179,6 +179,59 @@ browser.find_element_by_xpath('//li/a[contains(.,"Next")]').click()
 html = Selector(text=browser.execute_script("return document.documentElement.outerHTML;"))
 # html = Selector(text=html)
 
+
+
+
+
+# Updating. And pulling top 20000 characters from overall ranking?
+
+browser = Chrome('/Users/Tim/PyCharmProjects/learning/chromedriver')
+browser.get('https://maplelegends.com/ranking/monsterbook?page=1&search=')
+
+with open('MonsterbookRanking.csv', 'w', newline='') as file:
+    filewriter = csv.writer(file, quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    filewriter.writerow(['Rank', 'IGN', 'Fame', 'Level', 'Cards', 'Class'])
+    for y in range(500):
+        time.sleep(5)
+        html = Selector(text=browser.execute_script("return document.documentElement.outerHTML;"))
+        for x in range(5):
+            filewriter.writerow(list((html.xpath('//tr/td/b/text()').extract()[5 * x],
+                                      html.xpath('//tr/td/b/text()').extract()[5 * x + 1],
+                                      html.xpath('//tr/td/b/text()').extract()[5 * x + 2],
+                                      html.xpath('//tr/td/b/text()').extract()[5 * x + 3],
+                                      html.xpath('//tr/td/b/text()').extract()[5 * x + 4],
+                                      html.xpath('//tr/comment()[contains(., "job")]/following-sibling::*[1]/text()')
+                                      .extract()[x]
+                                      )))
+        browser.find_element_by_xpath('//li/a[contains(.,"Next")]').click()
+browser.quit()
+
+
+
+browser = Chrome('/Users/Tim/PyCharmProjects/learning/chromedriver')
+browser.get('https://maplelegends.com/ranking/all?page=1&search=')
+
+with open('OverallRanking.csv', 'w', newline='') as file:
+    filewriter = csv.writer(file, quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    filewriter.writerow(['Rank', 'IGN', 'Fame', 'Level', 'Class'])
+    for y in range(500):
+        time.sleep(5)
+        html = Selector(text=browser.execute_script("return document.documentElement.outerHTML;"))
+        for x in range(5):
+            filewriter.writerow(list((html.xpath('//tr/td/b/text()').extract()[4 * x],
+                                      html.xpath('//tr/td/b/text()').extract()[4 * x + 1],
+                                      html.xpath('//tr/td/b/text()').extract()[4 * x + 2],
+                                      html.xpath('//tr/td/b/text()').extract()[4 * x + 3],
+                                      html.xpath('//tr/comment()[contains(., "job")]/following-sibling::*[1]/text()')
+                                      .extract()[x]
+                                      )))
+        browser.find_element_by_xpath('//li/a[contains(.,"Next")]').click()
+browser.quit()
+
+
+
+
+
 # downloading images
 browser.get('https://maplelegends.com/avatar/create.php?name=Nell')
 html.xpath('//img').extract()
@@ -384,7 +437,7 @@ def replaceSlash(line):
 
 # return_line(3, '/Users/Tim/PycharmProjects/learning/Male Hair URL.txt')    # Yay it works
 
-browser.get(return_line(1, '/Users/Tim/PycharmProjects/learning/Male Hair URL.txt'))
+browser.get(return_line(111, '/Users/Tim/PycharmProjects/learning/Male Hair URL.txt'))
 # browser.find_element_by_xpath("//img").click()
 # ActionChains(browser).context_click(pics[0]).perform()
 # pyautogui.typewrite(['down', 'down', 'enter'], interval=.5)
@@ -399,7 +452,7 @@ pyautogui.keyUp('command')
 pyautogui.keyUp('s')
 time.sleep(2)
 # pyautogui.typewrite(['backspace'], interval=.5)
-pyautogui.typewrite(return_line(1, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt'), interval=.5)
+pyautogui.typewrite(return_line(111, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt'), interval=.5)
 pyautogui.typewrite(['enter'])
 
 
@@ -439,8 +492,15 @@ time.sleep(5)
 # pyautogui.typewrite(beforeBlank(return_line(30, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt')), interval=.2)
 # pyautogui.typewrite(return_line(4, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt'), interval=.8)
 pyautogui.typewrite(beforeSlash(return_line(137, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt')), interval=.2)
-
 pyautogui.typewrite(['enter'])
+
+
+# SAFER ALTERNATIVE
+subprocess.call(['open', '/Users/Tim/PycharmProjects/learning/Legends_Avatars/Male_Hair/' +
+                 return_line(111, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt') + '.png'])
+# /SAFER ALTERNATIVE
+
+
 time.sleep(2)
 
 pyautogui.moveTo(40, 150)
@@ -466,7 +526,7 @@ pyautogui.keyDown('s')
 pyautogui.keyUp('command')
 pyautogui.keyUp('s')
 time.sleep(2)
-pyautogui.typewrite(return_line(137, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt')+'s', interval=.2)
+pyautogui.typewrite(return_line(111, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt')+'s', interval=.2)
 pyautogui.typewrite(['enter'])
 time.sleep(2)
 pyautogui.keyDown('command')
@@ -546,7 +606,7 @@ for x in range(141):
 import subprocess
 # FileName = return_line(6, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt')
 subprocess.call(['open', '/Users/Tim/PycharmProjects/learning/Legends_Avatars/Male_Hair/' +
-                 return_line(6, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt') + '.png'])
+                 return_line(111, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt') + '.png'])
 
 # a much more generalized alternative! Warning that this can be ugly with .txt files in MacOS
 
@@ -554,7 +614,7 @@ subprocess.call(['open', '/Users/Tim/PycharmProjects/learning/Legends_Avatars/Ma
 # test run matching FreakBandit against all hairstyles
 
 scores = list()
-img = imread('/Users/Tim/PyCharmProjects/learning/Legends_Avatars/FreakBandit.png', as_gray=True)
+img = imread('/Users/Tim/PyCharmProjects/learning/Legends_Avatars/DrJason.png', as_gray=True)
 
 matcher = imread('/Users/Tim/PyCharmProjects/learning/Legends_Avatars/Male_Hair/{}s.png'.format(
                 replaceSlash(return_line(11, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt'))), as_gray=True)
@@ -578,3 +638,5 @@ scores.index(max(scores))
 print(return_line(scores.index(max(scores))+1, '/Users/Tim/PycharmProjects/learning/Male Hair Name.txt'))
 
 # Bah, so FreakBandit apparently best matches the wrong hair
+# Does work for DrJason though! Matching score is .83
+
